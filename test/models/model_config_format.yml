@@ -1,0 +1,54 @@
+
+template: /home/ksh/CASP/data/templates/lowe_1976_2013_template_df.pck
+
+expansion_model:
+    fp_dim: 16384
+    hidden_dim: 1024
+    num_templates: 27492
+    num_layers: 5
+    dropout: 0.1
+
+load_filter_model:
+    /home/ksh/CASP/test/models/model_save/filter[16384, 2048]_1024_5_0.0.epoch100.pt
+
+train_option_prioritizer:
+    data_file:
+        train: /home/ksh/CASP/data/USPTO_MIT/lowe_dup_train.pck
+        val: /home/ksh/CASP/data/USPTO_MIT/lowe_dup_val.pck
+    
+    num_workers: 15
+    batch_size: 128
+    device: cuda:1
+    epochs: 100
+    lr: 0.01
+    #lr: 0.001
+    #train_from: 
+    save: /home/ksh/CASP/test/models/model_save/prior/expansion_16384_1024_27492_5_0.1
+    save_every: 10
+    
+filter_model:
+    fp_dim:
+        - 16384
+        - 2048
+    hidden_dim: 1024
+    num_layers: 5
+    dropout: 0.0
+
+load_expansion_model:
+    /home/ksh/CASP/test/models/model_save/prior/expansion_16384_1024_27492_5_0.1.epoch20.pt
+
+train_option_filter:
+    data_file:
+        train: /home/ksh/CASP/data/USPTO_MIT/lowe_dup_train.pck
+        val: /home/ksh/CASP/data/USPTO_MIT/lowe_dup_val.pck
+    
+    num_workers: 15
+    batch_size: 256
+    device: cuda:0
+    epochs: 400
+    #lr: 0.0005
+    lr: 0.001
+
+    train_from: /home/ksh/CASP/test/models/model_save/filter[16384, 2048]_1024_5_0.0.epoch100.pt
+    #save:
+    save_every: 30

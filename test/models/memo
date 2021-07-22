@@ -1,0 +1,8 @@
+expansion_config = 'expansion_2048_121_0_5'
+from models.utils import generate_model
+import torch
+import torch.nn as nn
+model = generate_model(expansion_config)
+inp = torch.randn(2048).unsqueeze(0)
+filter_2048_1024_0_5 /home/ksh/CASP/test/models/model_save/filter_2048_1024_0_5.pt
+expansion_2048_121_0_5 /home/ksh/CASP/test/models/model_save/expansion_2048_121_0_5.pt
